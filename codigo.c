@@ -221,82 +221,51 @@ void main(void)
   lcd_init(16);
   init_keypad();
 
-  lcd_gotoxy(0,0);
-  lcd_putsf("DISPLAY ");
-  lcd_gotoxy(0,1);
-  lcd_putsf("DO CARRO");
-  delay_ms(400);
-  lcd_gotoxy(0,0);
-  lcd_putsf("-> MOTOR(°C)");
-  lcd_gotoxy(0,1);
-  lcd_putsf("ATIVAR ALARME");
-  delay_ms(200);
+
+  inicia_menu();
+  
   while (1){
     atualiza_entrada( &a_t1, &d_vibracao, &d_movimento, &keypad);
 
-    // if(d_vibracao){ativa_batida();}
-    // if(d_movimento){ativa_alarme();}
-    // if(a_t1<=300){ativa_temperatura_alta();}
+    if(d_vibracao){ativa_batida();}
+    if(d_movimento){ativa_alarme();}
+    if(a_t1<=300){ativa_temperatura_alta();}
 
-    // switch(pos_menu){
-    //   case MENU_1:
-    //     if(keypad & BOTAO_CIMA){
+    controla_menu();
 
-    //     }
-    //   break;
-    //   case MENU_2:
-    //   break;
-
-    // }
-    /*
-      MOTOR(°C)
-      ATIVAR ALARME
-    */
-    /*
-      DESATIVAR ALARME
-    */
-
-
-    if(keypad & BOTAO_1){
-      printf("1\r\n");
     }
-    if(keypad & BOTAO_2){
-      printf("2\r\n");
-    }
-    if(keypad & BOTAO_3){
-      printf("3\r\n");
-    }
-    if(keypad & BOTAO_4){
-      printf("4\r\n");
-    }
-    if(keypad & BOTAO_5){
-      printf("5\r\n");
-    }
-    if(keypad & BOTAO_6){
-      printf("6\r\n");
-    }
-    if(keypad & BOTAO_7){
-      printf("7\r\n");
-    }
-    if(keypad & BOTAO_8){
-      printf("8\r\n");
-    }
-    if(keypad & BOTAO_9){
-      printf("9\r\n");
-    }
-    if(keypad & BOTAO_0){
-      printf("0\r\n");
-    }
-    if(keypad & BOTAO_UP){
-      printf("UP\r\n");
-    }
-
-    // printf("\r\nentradas digitais:\r\n",);
-    // printf("    vibracao: %d\r\n",d_vibracao);
-    // printf("    movimento: %d\r\n",d_movimento);
-    // printf("entradas analogicas:\r\n");
-    // printf("    temperatura ky13: %d\r\n",a_t1);
-    // printf("    keypad: %d\r\n",keypad);
     delay_ms(10);  
   }
 }
+  /*
+    MOTOR(°C)
+    ATIVAR ALARME
+  */
+  /*
+    DESATIVAR ALARME
+  */
+
+  // printf("\r\nentradas digitais:\r\n",);
+  // printf("    vibracao: %d\r\n",d_vibracao);
+  // printf("    movimento: %d\r\n",d_movimento);
+  // printf("entradas analogicas:\r\n");
+  // printf("    temperatura ky13: %d\r\n",a_t1);
+  // printf("    keypad: %d\r\n",keypad);
+  // lcd_gotoxy(0,0);
+  // lcd_putsf("DISPLAY ");
+  // lcd_gotoxy(0,1);
+  // lcd_putsf("DO CARRO");
+  // delay_ms(400);
+  // lcd_gotoxy(0,0);
+  // lcd_putsf("-> MOTOR(°C)");
+  // lcd_gotoxy(0,1);
+  // lcd_putsf("ATIVAR ALARME");
+  // delay_ms(200);
+  // switch(){
+  //   case MENU_1:
+  //     if(keypad & BOTAO_CIMA){
+
+  //     }
+  //   break;
+  //   case MENU_2:
+  //   break;
