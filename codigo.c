@@ -51,8 +51,8 @@ Data Stack size         : 256
 #define VIBRACAO_IN PIND.2 // INT0
 #define MOVIMENTO_IN PIND.3 // INT1
 
-/*botoes da matrix*/
 
+#define DELTA_T 10
 
 char int_vibracao = 0;
 interrupt [EXT_INT0] void interrupt_de_vibracao(void)
@@ -231,10 +231,10 @@ void main(void)
     if(d_movimento){ativa_alarme();}
     if(a_t1<=300){ativa_temperatura_alta();}
 
-    controla_menu();
+    controla_menu(a_t1, d_vibracao, d_movimento, keypad, DELTA_T);
 
     }
-    delay_ms(10);  
+    delay_ms(DELTA_T);  
   }
 }
   /*

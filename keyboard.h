@@ -10,7 +10,7 @@
 #define FIRST_COLUMN 0x80
 #define LAST_COLUMN 0x10
 
-
+/*botoes da matrix*/
 #define BOTAO_1 0x0001
 #define BOTAO_2 0x0010
 #define BOTAO_3 0x0100
@@ -21,8 +21,8 @@
 #define BOTAO_8 0x0040
 #define BOTAO_9 0x0400
 #define BOTAO_0 0x0080
-#define BOTAO_UP 0x1000
-#define BOTAO_DW 0x2000
+#define BOTAO_CIMA 0x1000
+#define BOTAO_BAIXO 0x2000
 #define BOTAO_ENTER 0x0008
 #define BOTAO_RETURN 0x0800
 
