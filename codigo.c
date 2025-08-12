@@ -25,6 +25,8 @@ Data Stack size         : 256
 #include <delay.h>
 #include "keyboard.h"
 #include "keyboard.c"
+#include "display.h"
+#include "display.c"
 
 // Alphanumeric LCD Module functions
 #include <alcd.h>
@@ -91,7 +93,8 @@ void main(void)
 {    
 
   unsigned int a_t1, keypad;
-  unsigned char d_vibracao, d_movimento, pos_menu;
+  unsigned char d_vibracao, d_movimento, is_alarme_ativado;
+  is_alarme_ativado = 0;
 
   // Input/Output Ports initialization
   // Port A initialization
@@ -222,18 +225,25 @@ void main(void)
   init_keypad();
 
 
-  inicia_menu();
   
   while (1){
     atualiza_entrada( &a_t1, &d_vibracao, &d_movimento, &keypad);
 
-    if(d_vibracao){ativa_batida();}
-    if(d_movimento){ativa_alarme();}
-    if(a_t1<=300){ativa_temperatura_alta();}
-
-    controla_menu(a_t1, d_vibracao, d_movimento, keypad, DELTA_T);
-
+    controla_menu(a_t1, d_vibracao, d_movimento, keypad, DELTA_T, &is_alarme_ativado);
+    
+    if(d_vibracao){
+      ativa_buzzer();
+      ativa_led_batida();
+      return;
     }
+    
+    if((d_movimento) && (is_alarme_ativado)){
+      ativa_alarme();
+    }
+    
+    if(a_t1<=300){ativa_temperatura_alta();}
+    
+
     delay_ms(DELTA_T);  
   }
 }
