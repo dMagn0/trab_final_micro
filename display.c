@@ -61,7 +61,7 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
         return;
     }
 
-    if(is_alarme_ativado){
+    if(*is_alarme_ativado){
         switch(status_menu){
             case 1:
                 if(keypad != 0){
@@ -95,14 +95,14 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                     cursor = 0;
                     break;
                 }
-                
+
                 if(keypad & BOTAO_ENTER){
                     if(cursor == 4){
                         if(temp_buffer[0] == '0'){
                             if(temp_buffer[1] == '0'){
                                 if(temp_buffer[2] == '0'){
                                     if(temp_buffer[3] == '0'){
-                                        is_alarme_ativado = 0;
+                                        *is_alarme_ativado = 0;
                                         status_menu = 0;
                                         tempo_percorrido = 0;
                                         cursor = 1;

@@ -40,8 +40,8 @@ Data Stack size         : 256
   PB  = LCD 16
   PC  = teclado
   PA4 = LED BATIDA
-  PA5 = LED 
-  PA6 = ALARME
+  PA5 = LED TEMP ALTA
+  PA6 = COOLER
   PA7 = BUZZER
 */
 #define ADC_VREF_TYPE 0b01000000
@@ -87,6 +87,39 @@ void atualiza_entrada(unsigned int *a_t1, unsigned char *d_vibracao, unsigned ch
   *keypad = inkey();
 }
 
+void ativa_buzzer(){
+  PORTA.7 = 0;
+}
+
+void deativa_buzzer(){
+  PORTA.7 = 1;
+}
+
+void ativa_led_batida(){
+  PORTA.4 = 0;
+}
+
+void deativa_led_batida(){
+  PORTA.4 = 1;
+}
+
+void ativa_cooler(){
+  PORTA.6 = 0;
+}
+
+void deativa_cooler(){
+  PORTA.6 = 1;
+}
+
+void ativa_led_temperatura_alta(){
+  PORTA.5 = 0;
+
+}
+
+void deativa_led_temperatura_alta(){
+  PORTA.5 = 1;
+
+}
 
 
 void main(void)
@@ -223,7 +256,10 @@ void main(void)
   #asm("sei") ;
   lcd_init(16);
   init_keypad();
-
+  deativa_buzzer();
+  deativa_led_batida();
+  deativa_cooler();
+  deativa_led_temperatura_alta();
 
   
   while (1){
@@ -234,14 +270,25 @@ void main(void)
     if(d_vibracao){
       ativa_buzzer();
       ativa_led_batida();
-      return;
+      break;
     }
     
     if((d_movimento) && (is_alarme_ativado)){
-      ativa_alarme();
+      ativa_buzzer();
+    }else{
+      desativa_buzzr();
     }
     
-    if(a_t1<=300){ativa_temperatura_alta();}
+    if(a_t1<=230){
+      ativa_cooler();
+        if(a_t1<=300){
+          ativa_led_temperatura_alta();
+        }else{
+          desativa_led_temperatura_alta();
+        }
+    }else{
+      desativa_cooler();
+    }
     
 
     delay_ms(DELTA_T);  
