@@ -89,4 +89,5 @@ unsigned inkey(void)
     if (k=keys) 
         keys=0;
     return k;
+
 }

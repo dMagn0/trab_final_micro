@@ -6,11 +6,12 @@
 #define MENU_TEMP 2
 #define MENU_ALARME 3
 
-#define CONST_A -1
-#define CONST_B 6 
-#define CONST_C 100
+#define CONST_A -200.0
+#define CONST_B 1024.0 
+#define CONST_C 120.0
 
 void inicia_menu();
 void controla_menu(unsigned int, unsigned char, unsigned char, unsigned int, unsigned char, unsigned char*);
+char get_key_char(unsigned int keypad);
 
 #endif
