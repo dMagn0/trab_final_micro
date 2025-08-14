@@ -6,6 +6,7 @@
 
 void inicia_menu()
 {
+    lcd_clear();
     lcd_gotoxy(0,0);
     lcd_putsf("DISPLAY ");
     lcd_gotoxy(0,1);
@@ -51,7 +52,7 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
     static unsigned char status_menu = 0;
     static unsigned char tempo_percorrido = 0;
     static unsigned char cursor = 1;
-    char temp_buffer[16];
+    static char temp_buffer[16] = {0,0,0,0};
     float temperatura;
     if(d_vibracao){
         lcd_clear();
@@ -67,10 +68,13 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                 if(keypad != 0){
                     status_menu = 2;
                     cursor = 0;
+                    tempo_percorrido = 0;
+
                 }
             break;
             case 2:
                 if(tempo_percorrido == 0){
+                    lcd_clear();
                     lcd_gotoxy(0,0);
                     lcd_putsf("DIGITE A SENHA:"); 
                     lcd_gotoxy(0,1);
@@ -82,10 +86,12 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                     if(tempo_percorrido >= 230){
                         status_menu = 1;
                         cursor = 0;
+                        tempo_percorrido = 0;
+                        lcd_clear();
                     }
                     break;
                 }
-                tempo_percorrido = 0;
+                tempo_percorrido = 1;
 
                 if(keypad & BOTAO_RETURN){
                     lcd_clear();
@@ -115,16 +121,17 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                     status_menu = 1;
                     cursor = 0;
                     tempo_percorrido = 0;
+                    lcd_clear();
                     break;
                 }
                 
-                temp_buffer[cursor] = get_key_char();
+                temp_buffer[cursor] = get_key_char(keypad);
 
                 if(temp_buffer[cursor] == 'x'){
                     break;
                 }
                 lcd_putchar(temp_buffer[cursor]);
-                if(cursor<15){cursor++;}
+                if(cursor<14){cursor++;}
             break;
         }
         
@@ -134,19 +141,20 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
 
     switch(status_menu){
         case MENU_LOAD:
-            tempo_percorrido ++;
             if(tempo_percorrido == 0){
                 inicia_menu();
             }
-            if(tempo_percorrido > 40){
+            tempo_percorrido ++;
+            if(tempo_percorrido > 100){
                 status_menu = MENU_NORMAL;
                 tempo_percorrido = 0;
             }
         break;
         case MENU_NORMAL:
             if(tempo_percorrido == 0){
+                lcd_clear();
                 lcd_gotoxy(0,0);
-                lcd_putsf("-> MOTOR(°C)");
+                lcd_putsf("-> MOTOR(C)");
                 lcd_gotoxy(0,1);
                 lcd_putsf("ATIVAR ALARME"); 
                 cursor = 1;
@@ -156,8 +164,9 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                 case 1:
                     if(keypad & BOTAO_BAIXO){
                         cursor = 2;
+                        lcd_clear();
                         lcd_gotoxy(0,0);
-                        lcd_putsf("MOTOR(°C)");
+                        lcd_putsf("MOTOR(C)");
                         lcd_gotoxy(0,1);
                         lcd_putsf("-> ATIVAR ALARME"); 
                     }else if(keypad & BOTAO_ENTER){
@@ -168,8 +177,9 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
                 case 2:
                     if(keypad & BOTAO_CIMA){
                         cursor = 1;
+                        lcd_clear();
                         lcd_gotoxy(0,0);
-                        lcd_putsf("-> MOTOR(°C)");
+                        lcd_putsf("-> MOTOR(C)");
                         lcd_gotoxy(0,1);
                         lcd_putsf("ATIVAR ALARME"); 
                     }else if(keypad & BOTAO_ENTER){
@@ -187,15 +197,17 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
             }
 
             if(tempo_percorrido == 0){
+                lcd_clear();
                 lcd_gotoxy(0,0);
                 lcd_putsf("TEMP DO MOTOR:");
                 tempo_percorrido = 101;
             }
             if(tempo_percorrido >= 101){
-                temperatura = ((float)a_t1 * (CONST_A/CONST_B)) + CONST_C;
+                temperatura = (((float)a_t1)*(CONST_A)/CONST_B) + CONST_C;
+                // temperatura = (((float)a_t1 )*(-1))/6 +160; // 1024 / 6 = 160
                 sprintf(temp_buffer, "%.2f", temperatura); 
                 lcd_gotoxy(0,1);
-                lcd_putsf(temp_buffer); 
+                lcd_puts(temp_buffer); 
                 lcd_putchar(0xDF); 
                 lcd_putchar('C');
                 tempo_percorrido = 1;  
@@ -210,6 +222,7 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
             }
 
             if(tempo_percorrido == 0){
+                lcd_clear();
                 lcd_gotoxy(0,0);
                 lcd_putsf("ENTER PARA");
                 lcd_gotoxy(0,1);
@@ -218,6 +231,7 @@ void controla_menu(unsigned int a_t1, unsigned char d_vibracao, unsigned char d_
             }
 
             if((tempo_percorrido == 1) && (keypad & BOTAO_ENTER)){
+                lcd_clear();
                 lcd_gotoxy(0,0);
                 lcd_putsf("ALARME ATIVADO");
                 tempo_percorrido ++;

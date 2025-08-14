@@ -35,7 +35,7 @@ Data Stack size         : 256
 #include <stdio.h>
 /*
   PA2 = temp_ky013
-  PD2(INT0) = vibracao digial (batida)
+  PD2(INT0) = vibracao digital (batida)
   PD3(INT1) = movimento (alarme)
   PB  = LCD 16
   PC  = teclado
@@ -87,39 +87,62 @@ void atualiza_entrada(unsigned int *a_t1, unsigned char *d_vibracao, unsigned ch
   *keypad = inkey();
 }
 
-void ativa_buzzer(){
-  PORTA.7 = 0;
+void ativa_buzzer() {
+    if (PORTA.7 == 1) {
+        PORTA.7 = 0;
+    }
+    return;
 }
 
-void deativa_buzzer(){
-  PORTA.7 = 1;
+void desativa_buzzer() {
+    if (PORTA.7 == 0) {
+        PORTA.7 = 1;
+    }
+    return;
 }
 
-void ativa_led_batida(){
-  PORTA.4 = 0;
+void ativa_led_batida() {
+    if (PORTA.4 == 1) {
+        PORTA.4 = 0;
+    }
+    return;
 }
 
-void deativa_led_batida(){
-  PORTA.4 = 1;
+void desativa_led_batida() {
+    if (PORTA.4 == 0) {
+        PORTA.4 = 1;
+    }
+    return;
 }
 
-void ativa_cooler(){
-  PORTA.6 = 0;
+void ativa_cooler() {
+    if (PORTA.6 == 1) {
+        PORTA.6 = 0;
+    }
+    return;
 }
 
-void deativa_cooler(){
-  PORTA.6 = 1;
+void desativa_cooler() {
+    if (PORTA.6 == 0) {
+        PORTA.6 = 1;
+    }
+    return;
 }
 
-void ativa_led_temperatura_alta(){
-  PORTA.5 = 0;
-
+void ativa_led_temperatura_alta() {
+    if (PORTA.5 == 1) {
+        PORTA.5 = 0;
+    }
+    return;
 }
 
-void deativa_led_temperatura_alta(){
-  PORTA.5 = 1;
-
+void desativa_led_temperatura_alta() {
+    if (PORTA.5 == 0) {
+        PORTA.5 = 1;
+    }
+    return;
 }
+
 
 
 void main(void)
@@ -256,10 +279,10 @@ void main(void)
   #asm("sei") ;
   lcd_init(16);
   init_keypad();
-  deativa_buzzer();
-  deativa_led_batida();
-  deativa_cooler();
-  deativa_led_temperatura_alta();
+  desativa_buzzer();
+  desativa_led_batida();
+  desativa_cooler();
+  desativa_led_temperatura_alta();
 
   
   while (1){
@@ -275,8 +298,9 @@ void main(void)
     
     if((d_movimento) && (is_alarme_ativado)){
       ativa_buzzer();
-    }else{
-      desativa_buzzr();
+    }
+    if(!is_alarme_ativado){
+      desativa_buzzer();
     }
     
     if(a_t1<=230){
@@ -291,9 +315,49 @@ void main(void)
     }
     
 
+
     delay_ms(DELTA_T);  
   }
 }
+  //  if (keypad & BOTAO_1) {
+  //   printf("1");
+  //   }
+  //   if (keypad & BOTAO_2) {
+  //       printf("2");
+  //   }
+  //   if (keypad & BOTAO_3) {
+  //       printf("3");
+  //   }
+  //   if (keypad & BOTAO_4) {
+  //       printf("4");
+  //   }
+  //   if (keypad & BOTAO_5) {
+  //       printf("5");
+  //   }
+  //   if (keypad & BOTAO_6) {
+  //       printf("6");
+  //   }
+  //   if (keypad & BOTAO_7) {
+  //       printf("7");
+  //   }
+  //   if (keypad & BOTAO_8) {
+  //       printf("8");
+  //   }
+  //   if (keypad & BOTAO_9) {
+  //       printf("9");
+  //   }
+  //   if (keypad & BOTAO_CIMA) {
+  //       printf("CIMA");
+  //   }
+  //   if (keypad & BOTAO_BAIXO) {
+  //       printf("BOTAO_BAIXO");
+  //   }
+  //   if (keypad & BOTAO_ENTER) {
+  //       printf("BOTAO_ENTER");
+  //   }
+  //   if (keypad & BOTAO_RETURN) {
+  //       printf("BOTAO_RETURN");
+  //   }
   /*
     MOTOR(°C)
     ATIVAR ALARME
