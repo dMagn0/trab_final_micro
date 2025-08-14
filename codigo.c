@@ -88,60 +88,37 @@ void atualiza_entrada(unsigned int *a_t1, unsigned char *d_vibracao, unsigned ch
 }
 
 void ativa_buzzer() {
-    if (PORTA.7 == 1) {
-        PORTA.7 = 0;
-    }
-    return;
+    PORTA.7 = 0;
 }
 
 void desativa_buzzer() {
-    if (PORTA.7 == 0) {
-        PORTA.7 = 1;
-    }
-    return;
+    PORTA.7 = 1;
 }
 
 void ativa_led_batida() {
-    if (PORTA.4 == 1) {
-        PORTA.4 = 0;
-    }
-    return;
+    PORTA.4 = 0;
 }
 
 void desativa_led_batida() {
-    if (PORTA.4 == 0) {
-        PORTA.4 = 1;
-    }
-    return;
+    PORTA.4 = 1;
 }
 
 void ativa_cooler() {
-    if (PORTA.6 == 1) {
-        PORTA.6 = 0;
-    }
-    return;
+    PORTA.6 = 0;
 }
 
 void desativa_cooler() {
-    if (PORTA.6 == 0) {
-        PORTA.6 = 1;
-    }
-    return;
+    PORTA.6 = 1;
 }
 
 void ativa_led_temperatura_alta() {
-    if (PORTA.5 == 1) {
-        PORTA.5 = 0;
-    }
-    return;
+    PORTA.5 = 0;
 }
 
 void desativa_led_temperatura_alta() {
-    if (PORTA.5 == 0) {
-        PORTA.5 = 1;
-    }
-    return;
+    PORTA.5 = 1;
 }
+
 
 
 
