@@ -268,6 +268,8 @@ void main(void)
     controla_menu(a_t1, d_vibracao, d_movimento, keypad, DELTA_T, &is_alarme_ativado);
     
     if(d_vibracao){
+      desativa_cooler();
+      desativa_led_temperatura_alta();
       ativa_buzzer();
       ativa_led_batida();
       break;
